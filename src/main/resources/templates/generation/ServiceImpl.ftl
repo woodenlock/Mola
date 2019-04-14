@@ -1,22 +1,32 @@
 package ${all.serviceImpl.targetPackagePath?replace('/','.') ? substring(0,(all.serviceImpl.targetPackagePath?replace('/','.'))?length-1)};
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.resintec.mola.business.model.PageVO;
+import com.resintec.mola.business.util.ObjectUtils;
+import com.resintec.mola.business.consts.DBConsts;
 import ${all.entity.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.entity.targetSuffix};
+import ${all.viewObject.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.viewObject.targetSuffix};
 import ${all.dao.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.dao.targetSuffix};
 import ${all.service.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.service.targetSuffix};
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
  
 /**
- * the service implement of ${table.entityName? cap_first}
- * @author: ${author}
- * @create: ${date}
+ * @Description the service implement of ${table.entityName? cap_first}
+ * @Author: ${author}
+ * @Date: ${date}
  *
  */
 @Service("${table.entityName}${all.service.targetSuffix}")
 public class ${table.entityName? cap_first}${all.serviceImpl.targetSuffix} implements ${table.entityName? cap_first}${all.service.targetSuffix} {
+	private final static Logger log = LoggerFactory.getLogger(${table.entityName? cap_first}${all.serviceImpl.targetSuffix}.class);
+	
 	@Autowired
     private ${table.entityName? cap_first}${all.dao.targetSuffix} mapper;
     
@@ -27,7 +37,8 @@ public class ${table.entityName? cap_first}${all.serviceImpl.targetSuffix} imple
     @Override
     public int deleteByPrimaryKey(${table.primaryColumn.javaTypeShortName} ${table.primaryColumn.name}) {
     	if(null == ${table.primaryColumn.name}) {
-    		return 0;
+    		log.info("Failed to delete record due to empty primary key:${table.primaryColumn.name}.");
+    		return DBConsts.COMMON_FAILED;
     	}
     	return mapper.deleteByPrimaryKey(${table.primaryColumn.name});
     }
@@ -39,7 +50,8 @@ public class ${table.entityName? cap_first}${all.serviceImpl.targetSuffix} imple
     @Override
     public int insert(${table.entityName? cap_first}${all.entity.targetSuffix} record) {
     	if(null == record) {
-    		return 0;
+    		log.info("Failed to insert record due to empty param.");
+    		return DBConsts.COMMON_FAILED;
     	}
     	return mapper.insert(record);
     }
@@ -51,7 +63,8 @@ public class ${table.entityName? cap_first}${all.serviceImpl.targetSuffix} imple
     @Override
     public int insertSelective(${table.entityName? cap_first}${all.entity.targetSuffix} record) {
     	if(null == record) {
-    		return 0;
+    		log.info("Failed to insertSelective record due to empty param.");
+    		return DBConsts.COMMON_FAILED;
     	}
     	return mapper.insertSelective(record);
     }
@@ -74,8 +87,9 @@ public class ${table.entityName? cap_first}${all.serviceImpl.targetSuffix} imple
      */
     @Override
     public int updateByPrimaryKeySelective(${table.entityName? cap_first}${all.entity.targetSuffix} record) {
-    	if(null == record) {
-    		return 0;
+    	if(null == record || null == record.get${table.primaryColumn.name? cap_first}()) {
+    		log.info("Failed to updateByPrimaryKeySelective record due to empty primary key.${table.entityName? cap_first}${all.entity.targetSuffix}:{}.", record);
+    		return DBConsts.COMMON_FAILED;
     	}
     	return mapper.updateByPrimaryKeySelective(record);
     }
@@ -86,10 +100,24 @@ public class ${table.entityName? cap_first}${all.serviceImpl.targetSuffix} imple
      */
     @Override
     public int updateByPrimaryKey(${table.entityName? cap_first}${all.entity.targetSuffix} record) {
-    	if(null == record) {
-    		return 0;
+    	if(null == record || null == record.get${table.primaryColumn.name? cap_first}()) {
+    		log.info("Failed to updateByPrimaryKey record due to empty primary key.${table.entityName? cap_first}${all.entity.targetSuffix}:{}.", record);
+    		return DBConsts.COMMON_FAILED;
     	}
     	return mapper.updateByPrimaryKey(record);
+    }
+    
+    @Override
+    public Page<${table.entityName? cap_first}${all.entity.targetSuffix}> page(PageVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}> page) {
+        if (null == page) {
+            return null;
+        }
+        ${table.entityName? cap_first}${all.entity.targetSuffix} param =
+            null != page.getSearch() ? ObjectUtils.convert(page.getSearch(), ${table.entityName? cap_first}${all.entity.targetSuffix}.class) : new ${table.entityName? cap_first}${all.entity.targetSuffix}();
+        PageHelper.orderBy(page.getOrders());
+        Page<${table.entityName? cap_first}${all.entity.targetSuffix}> p = PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        mapper.selectSelective(param);
+        return p;
     }
     
     /**

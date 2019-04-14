@@ -8,10 +8,9 @@ import ${importance};
 </#if>
 </#list>
 /**
- * entity class:${table.remarks}
- *
- * @author: ${author}
- * @create: ${date}
+ * @Description entity class:${table.remarks}
+ * @Author: ${author}
+ * @Date: ${date}
  **/
 public class ${table.entityName? cap_first}${all.entity.targetSuffix} implements Serializable {
 	private static final long serialVersionUID = 1L;

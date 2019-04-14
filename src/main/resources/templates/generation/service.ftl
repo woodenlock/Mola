@@ -1,13 +1,16 @@
 package ${all.service.targetPackagePath?replace('/','.') ? substring(0,(all.service.targetPackagePath?replace('/','.'))?length-1)};
 
+import com.github.pagehelper.Page;
+import com.resintec.mola.business.model.PageVO;
 import ${all.entity.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.entity.targetSuffix};
+import ${all.viewObject.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.viewObject.targetSuffix};
 
 import java.util.List;
  
 /**
- * service interface of ${table.entityName? cap_first}
- * @author: ${author}
- * @create: ${date}
+ * @Description service interface of ${table.entityName? cap_first}
+ * @Author: ${author}
+ * @Date: ${date}
  *
  */
 public interface ${table.entityName? cap_first}${all.service.targetSuffix} {
@@ -46,6 +49,13 @@ public interface ${table.entityName? cap_first}${all.service.targetSuffix} {
      * @param record
      */
     int updateByPrimaryKey(${table.entityName? cap_first}${all.entity.targetSuffix} record);
+    
+    /**
+     * query by page
+     * @param page
+     * @return
+     */
+    Page<${table.entityName? cap_first}${all.entity.targetSuffix}> page(PageVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}> page);
     
     /**
      * select all matched records by selective props

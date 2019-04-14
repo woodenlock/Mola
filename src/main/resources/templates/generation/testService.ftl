@@ -16,9 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * test class of the ${table.entityName? cap_first}${all.testService.targetSuffix}
- * @author: ${author}
- * @create: ${date}
+ * @Description test class of the ${table.entityName? cap_first}${all.testService.targetSuffix}
+ * @Author: ${author}
+ * @Date: ${date}
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest

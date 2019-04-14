@@ -7,7 +7,8 @@
 </#list>
 </resultMap>
 <sql id="Base_Column_List">
-<#list table.columns as column>${column.name}<#if column_has_next>,</#if></#list>
+<#assign prop><#list table.columns as column>${column.name}<#if column_has_next>,</#if></#list></#assign>
+${split(prop, 120,0)}
 </sql>
 <select id="selectByPrimaryKey" parameterType="${table.primaryColumn.javaTypeFullName}" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> from ${table.name}
@@ -21,8 +22,12 @@
     <selectKey keyProperty="${table.primaryColumn.name}" order="AFTER" resultType="${table.primaryColumn.javaTypeFullName}">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ${table.name} (<#list table.columns as column><#if !column.isPrimary??>${column.name}<#if column_has_next>,</#if></#if></#list>)
-    values (<#list table.columns as column><#if !column.isPrimary??>${r"#{"}${column.javaName},jdbcType=${column.typeName}}<#if column_has_next>,</#if></#if></#list>)
+    insert into ${table.name} 
+    <#assign prop><#list table.columns as column><#if !column.isPrimary??>${column.name}<#if column_has_next>,</#if></#if></#list></#assign>
+    (${split(prop, 120)})
+    values 
+    <#assign prop><#list table.columns as column><#if !column.isPrimary??>${r"#{"}${column.javaName},jdbcType=${column.typeName}}<#if column_has_next>,</#if></#if></#list></#assign>
+	(${split(prop, 120)})
 </insert>
 <insert id="insertSelective" parameterType="${all.entity.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.entity.targetSuffix}">
     <selectKey keyProperty="id" order="AFTER" resultType="${table.primaryColumn.javaTypeFullName}">
@@ -74,7 +79,17 @@
     <where>
       <#list table.columns as column>
       <if test="${column.javaName} != null">
-        and ${column.name} = ${r"#{"}${column.javaName},jdbcType=VARCHAR}
+        and ${column.name} = ${r"#{"}${column.javaName},jdbcType=${column.typeName}}
+      </if>
+      </#list>
+    </where>
+</select>
+<select id="selectCountSelective" parameterType="${all.entity.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.entity.targetSuffix}" resultType="java.lang.Long">
+    select count(1) from ${table.name}
+    <where>
+      <#list table.columns as column>
+      <if test="${column.javaName} != null">
+        and ${column.name} = ${r"#{"}${column.javaName},jdbcType=${column.typeName}}
       </if>
       </#list>
     </where>
@@ -86,8 +101,8 @@
     <where>
     	<if test="${table.primaryColumn.name}s != null">
     		 AND ${table.primaryColumn.name} in 
-    		<foreach collection="${table.primaryColumn.name}s" item="id" open="(" separator="," close=")">
-        		${r"#{"}${table.primaryColumn.javaName},jdbcType=${table.primaryColumn.typeName}}
+    		<foreach collection="${table.primaryColumn.name}s" item="${table.primaryColumn.name}" open="(" separator="," close=")">
+        		${r"#{"}${table.primaryColumn.name},jdbcType=${table.primaryColumn.typeName}}
     		</foreach>
     	</if>
     </where>

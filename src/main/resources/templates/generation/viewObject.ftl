@@ -11,10 +11,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * view object class:${table.remarks}
- *
- * @author: ${author}
- * @create: ${date}
+ * @Description view object class:${table.remarks}
+ * @Author: ${author}
+ * @Date: ${date}
  **/
 @ApiModel(value = "${table.remarks}", description = "")
 public class ${table.entityName? cap_first}${all.viewObject.targetSuffix} implements Serializable {

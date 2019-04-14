@@ -7,9 +7,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
  
 /**
-* dao of the ${table.entityName? cap_first}
-* @author: ${author}
-* @create: ${date}
+ * @Description dao of the ${table.entityName? cap_first}
+ * @Author: ${author}
+ * @Date: ${date}
 **/
 public interface ${table.entityName? cap_first}${all.dao.targetSuffix} {
 	/**
@@ -53,6 +53,12 @@ public interface ${table.entityName? cap_first}${all.dao.targetSuffix} {
      * @param record
      */
     List<${table.entityName? cap_first}> selectSelective(${table.entityName? cap_first} record);
+    
+    /**
+     * select the count of  all matched records by selective props
+     * @param record
+     */
+    Long selectCountSelective(${table.entityName? cap_first} record);
     
     /**
      * select all matched records by the list of primary keys
