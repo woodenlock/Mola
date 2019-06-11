@@ -133,7 +133,7 @@ public class JdbcUtils{
     	}
     	
     	Table table = null;
-        ResultSet PKResultSet = null;
+        ResultSet primaryKeyResultSet = null;
         ResultSet indexSet = null;
         ResultSet columnSet = null;
         List<Table> tables = new ArrayList<Table>();
@@ -151,10 +151,10 @@ public class JdbcUtils{
             
             //Primary keys
             primarys = new HashMap<String, String>(128);
-            PKResultSet =
+            primaryKeyResultSet =
                 dbmd.getPrimaryKeys(rs.getString(TABLE_CAT), rs.getString(TABLE_SCHEM), rs.getString(TABLE_NAME));
-            while(PKResultSet.next()) {
-                primarys.put(PKResultSet.getString(COLUMN_NAME), PKResultSet.getString(COLUMN_NAME));
+            while(primaryKeyResultSet.next()) {
+                primarys.put(primaryKeyResultSet.getString(COLUMN_NAME), primaryKeyResultSet.getString(COLUMN_NAME));
             }
             
             //indexes of the table
@@ -205,7 +205,7 @@ public class JdbcUtils{
             tables.add(table);
         }
     	
-        PKResultSet.close();
+        primaryKeyResultSet.close();
         columnSet.close();
         indexSet.close();
         rs.close();

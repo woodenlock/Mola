@@ -6,5 +6,9 @@ package com.resintec.mola.business.interfaz;
  *
  */
 public interface Resultable extends Descriptable{
+	/**
+	 * get changeable code
+	 * @return
+	 */
     Integer getCode();
 }

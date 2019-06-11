@@ -1,145 +1,149 @@
 package com.resintec.mola.enums;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 /**
  * jdbc enum(mysql)
- * @see com.mysql.cj.jdbc.result.com.mysql.cj.jdbc.result.ResultSetImpl.getObject(int columnIndex)
- *      ibatis alse org.apache.ibatis.type.JdbcType
+ * 
+ * @see com.mysql.cj.jdbc.result.com.mysql.cj.jdbc.result.ResultSetImpl.getObject(int
+ *      columnIndex) ibatis alse org.apache.ibatis.type.JdbcType
  * @author woodenlock
  */
 public enum JdbcTypeEnum {
-    /** longn varchar **/
-	LONGNVARCHAR("LONGNVARCHAR", "String", String.class.getName(), -16),
-	
+	/** longn varchar **/
+	LONGNVARCHAR("VARCHAR", "String", String.class.getName(), java.sql.Types.LONGNVARCHAR),
+
 	/** nchar **/
-	NCHAR("NCHAR", "String", String.class.getName(), -15),
-	
+	NCHAR("VARCHAR", "String", String.class.getName(), java.sql.Types.NCHAR),
+
 	/** nvarchar **/
-	NVARCHAR("NVARCHAR", "String", String.class.getName(), -9),
-	
+	NVARCHAR("VARCHAR", "String", String.class.getName(), java.sql.Types.NVARCHAR),
+
 	/** bit **/
-	BIT("BIT", "Boolean", Boolean.class.getName(), -7),
-	
+	BIT("BIT", "Boolean", Boolean.class.getName(), java.sql.Types.BIT),
+
 	/** tiny int **/
-	TINYINT("TINYINT", "Integer", Integer.class.getName(), -6),
-	
+	TINYINT("TINYINT", "Integer", Integer.class.getName(), java.sql.Types.TINYINT),
+
 	/** big int **/
-	BIGINT("BIGINT", "Long", Long.class.getName(), -5),
-	
+	BIGINT("BIGINT", "Long", Long.class.getName(), java.sql.Types.BIGINT),
+
 	/** long varbinary **/
-	LONGVARBINARY("LONGVARBINARY", "byte[]", "byte[]", -4),
-	
+	LONGVARBINARY("VARCHAR", "byte[]", "byte[]", java.sql.Types.LONGVARBINARY),
+
 	/** varbinary **/
-	VARBINARY("VARBINARY", "byte[]", "byte[]", -3),
-	
+	VARBINARY("VARCHAR", "byte[]", "byte[]", java.sql.Types.VARBINARY),
+
 	/** binary **/
-	BINARY("BINARY", "byte[]", "byte[]", -2),
-	
+	BINARY("VARCHAR", "byte[]", "byte[]", java.sql.Types.BINARY),
+
 	/** text **/
-	TEXT("TEXT", "String", String.class.getName(), -1),
-	
+	TEXT("VARCHAR", "String", String.class.getName(), java.sql.Types.LONGVARCHAR),
+
 	/** null **/
-	NULL("NULL", "Object", Object.class.getName(), 0),
-	
+	NULL("NULL", "Object", Object.class.getName(), java.sql.Types.NULL),
+
 	/** char **/
-	CHAR("CHAR", "String", String.class.getName(), 1),
-	
+	CHAR("CHAR", "String", String.class.getName(), java.sql.Types.CHAR),
+
 	/** numeric **/
-	NUMERIC("NUMERIC", "BigDecimal", BigDecimal.class.getName(), 2),
-	
+	NUMERIC("NUMERIC", "BigDecimal", BigDecimal.class.getName(), java.sql.Types.NUMERIC),
+
 	/** decimal **/
-	DECIMAL("DECIMAL", "BigDecimal", BigDecimal.class.getName(), 3),
-	
+	DECIMAL("DECIMAL", "BigDecimal", BigDecimal.class.getName(), java.sql.Types.DECIMAL),
+
 	/** integer **/
-	INTEGER("INTEGER", "Integer", Integer.class.getName(), 4),
-	
+	INTEGER("INTEGER", "Integer", Integer.class.getName(), java.sql.Types.INTEGER),
+
 	/** small int **/
-	SMALLINT("SMALLINT", "Short", Short.class.getName(), 5),
-	
+	SMALLINT("SMALLINT", "Short", Short.class.getName(), java.sql.Types.SMALLINT),
+
 	/** float **/
-	FLOAT("FLOAT", "Double", Double.class.getName(), 6),
-	
+	FLOAT("FLOAT", "Double", Double.class.getName(), java.sql.Types.FLOAT),
+
 	/** real **/
-	REAL("REAL", "Float", Float.class.getName(), 7),
-	
+	REAL("REAL", "Float", Float.class.getName(), java.sql.Types.REAL),
+
 	/** double **/
-	DOUBLE("DOUBLE", "Double", Double.class.getName(), 8),
-	
+	DOUBLE("DOUBLE", "Double", Double.class.getName(), java.sql.Types.DOUBLE),
+
 	/** varchar **/
-	VARCHAR("VARCHAR", "String", String.class.getName(), 12),
-	
+	VARCHAR("VARCHAR", "String", String.class.getName(), java.sql.Types.VARCHAR),
+
 	/** boolean **/
-	BOOLEAN("BOOLEAN", "Boolean", Boolean.class.getName(), 16),
-	
+	BOOLEAN("BOOLEAN", "Boolean", Boolean.class.getName(), java.sql.Types.BOOLEAN),
+
 	/** data link **/
-	DATALINK("DATALINK", "Object", Object.class.getName(), 70),
-	
+	DATALINK("DATALINK", "Object", Object.class.getName(), java.sql.Types.DATALINK),
+
 	/** date **/
-	DATE("DATE", "Date", Date.class.getName(), 91),
-	
+	DATE("DATE", "Date", Date.class.getName(), java.sql.Types.DATE),
+
 	/** time **/
-	TIME("TIME", "Date", Date.class.getName(), 92),
-	
+	TIME("TIME", "Date", Date.class.getName(), java.sql.Types.TIME),
+
 	/** timestamp **/
-	TIMESTAMP("TIMESTAMP", "Date", Date.class.getName(), 93),
-	
+	TIMESTAMP("TIMESTAMP", "Date", Date.class.getName(), java.sql.Types.TIMESTAMP),
+
 	/** other **/
-	OTHER("OTHER", "Object", Object.class.getName(), 1111),
-	
+	OTHER("OTHER", "Object", Object.class.getName(), java.sql.Types.OTHER),
+
 	/** java object **/
-	JAVA_OBJECT("JAVA_OBJECT", "Object", Object.class.getName(), 2000),
-	
+	JAVA_OBJECT("JAVA_OBJECT", "Object", Object.class.getName(), java.sql.Types.JAVA_OBJECT),
+
 	/** distinct **/
-	DISTINCT("DISTINCT", "Object", Object.class.getName(), 2001),
-	
+	DISTINCT("DISTINCT", "Object", Object.class.getName(), java.sql.Types.DISTINCT),
+
 	/** struct **/
-	STRUCT("STRUCT", "Object", Object.class.getName(), 2002),
-	
+	STRUCT("STRUCT", "Object", Object.class.getName(), java.sql.Types.STRUCT),
+
 	/** array **/
-	ARRAY("ARRAY", "Object", Object.class.getName(), 2003),
-	
+	ARRAY("ARRAY", "Object", Object.class.getName(), java.sql.Types.ARRAY),
+
 	/** blob **/
-	BLOB("BLOB", "byte[]", "byte[]", 2004),
-	
+	BLOB("BLOB", "byte[]", "byte[]", java.sql.Types.BLOB),
+
 	/** clob **/
-	CLOB("CLOB", "String", String.class.getName(), 2005),
-	
+	CLOB("CLOB", "String", String.class.getName(), java.sql.Types.CLOB),
+
 	/** ref **/
-	REF("REF", "Object", Object.class.getName(), 2006),
-	
+	REF("REF", "Object", Object.class.getName(), java.sql.Types.REF),
+
 	/** nclob **/
-	NCLOB("NCLOB", "String", String.class.getName(), 2011),
-	
+	NCLOB("NCLOB", "String", String.class.getName(), java.sql.Types.NCLOB),
+
 	/** time with timezone **/
-	TIME_WITH_TIMEZONE("TIME_WITH_TIMEZONE", "Date", OffsetDateTime.class.getName(), 2013),
-	
+	TIME_WITH_TIMEZONE("TIME_WITH_TIMEZONE", "Date", OffsetDateTime.class.getName(), java.sql.Types.TIME_WITH_TIMEZONE),
+
 	/** timestamp with timezone **/
-	TIMESTAMP_WITH_TIMEZONE("TIMESTAMP_WITH_TIMEZONE", "Date", OffsetDateTime.class.getName(), 2014);
-	//TODO more types can be defined here
-	
+	TIMESTAMP_WITH_TIMEZONE("TIMESTAMP_WITH_TIMEZONE", "Date", OffsetDateTime.class.getName(),
+			java.sql.Types.TIMESTAMP_WITH_TIMEZONE);
+	// TODO more types can be defined here
+
 	/**
 	 * name of the jdbc type
 	 */
 	private final String jdbcName;
-	
+
 	/**
 	 * short name of the java type
 	 */
 	private final String javaShortName;
-	
+
 	/**
 	 * name of the mapping java full name
 	 */
 	private String javaFullName;
-	
+
 	/**
 	 * code of the jdbc type
 	 */
 	private final Integer jdbcCode;
-	
+
 	private JdbcTypeEnum(String jdbcName, String javaShortName, String javaFullName, Integer jdbcCode) {
 		this.jdbcName = jdbcName;
 		this.javaShortName = javaShortName;
@@ -154,31 +158,29 @@ public enum JdbcTypeEnum {
 	public String getJavaFullName() {
 		return javaFullName;
 	}
-	
+
 	public String getJavaShortName() {
 		return javaShortName;
 	}
-	
+
 	public Integer getJdbcCode() {
-	    return jdbcCode;
+		return jdbcCode;
 	}
-	
+
+	private static Map<Integer, JdbcTypeEnum> lookup = new HashMap<Integer, JdbcTypeEnum>(64);
+	static {
+		for (JdbcTypeEnum en : JdbcTypeEnum.values()) {
+			lookup.put(en.getJdbcCode(), en);
+		}
+	};
+
 	/**
 	 * get by the code of jdbc type
+	 * 
 	 * @param jdbcName
 	 * @return
 	 */
 	public static JdbcTypeEnum getByJdbcCode(Integer code) {
-	    if(null == code){
-	        throw new IllegalArgumentException("Failed to look for JdbcTypeEnum by jdbc code due to empty param:code.");
-	    }
-		
-	    for (JdbcTypeEnum en : JdbcTypeEnum.values()) {
-            if(en.getJdbcCode().equals(code)){
-                return en;
-            }
-        }
-	    
-	    return null;
+		return lookup.get(code);
 	}
 }

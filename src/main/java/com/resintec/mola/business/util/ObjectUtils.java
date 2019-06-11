@@ -28,6 +28,7 @@ import com.resintec.mola.util.LogUtils;
  */
 public class ObjectUtils {
     private static LogUtils.Log log = LogUtils.build(ObjectUtils.class);
+    
 	/** path of Object class **/
 	public static final String OBJECT_PATH = "java.lang.object";
 	
@@ -151,7 +152,7 @@ public class ObjectUtils {
             return null;
         }
         Class<?> type = bean.getClass();
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<String, Object>(16);
         BeanInfo beanInfo;
         try {
             beanInfo = Introspector.getBeanInfo(type);
@@ -163,7 +164,7 @@ public class ObjectUtils {
             for (int i = 0; i< propertyDescriptors.length; i++) {
                 PropertyDescriptor descriptor = propertyDescriptors[i];
                 String propertyName = descriptor.getName();
-                if (!propertyName.equals("class")) {
+                if (!"class".equals(propertyName)) {
                     Method readMethod = descriptor.getReadMethod();
                     Object value = readMethod.invoke(bean, new Object[0]);
                     result.put(propertyName, value);

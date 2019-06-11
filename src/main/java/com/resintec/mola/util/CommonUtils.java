@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.resintec.mola.business.util.ObjectUtils;
 import com.resintec.mola.model.BusinessException;
 
 /**
@@ -203,7 +204,7 @@ public class CommonUtils{
     public static List<Field> getAllFields(Class<? extends Object> target, Class<? extends Object> type){
         List<Field> fields = new ArrayList<Field>();
         Field[] tmp = null;
-        while(null != target && !target.getName().equals("java.lang.Object")){
+        while(null != target && !ObjectUtils.OBJECT_PATH.equals(target.getName())){
             tmp = target.getDeclaredFields();
             if(null != tmp){
                 for (Field field : tmp) {

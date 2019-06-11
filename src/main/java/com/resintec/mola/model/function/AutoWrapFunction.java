@@ -14,12 +14,19 @@ import freemarker.template.TemplateModelException;
  * @author woodenlock
  */
 public class AutoWrapFunction implements TemplateMethodModelEx {
+	
     private static final String BREAK_SPLITER = ",";
+    
     private static final String WRAP_SIGNER = "\n";
+    
+    private static final Integer MIN_PARAMS_SIZE = 2;
+    
+    private static final Integer MAX_PARAMS_SIZE = 3;
+    
     @SuppressWarnings("rawtypes")
     @Override
     public Object exec(List arguments) throws TemplateModelException {
-        if(null == arguments || (arguments.size() != 2 && arguments.size() != 3)){
+        if(null == arguments || (arguments.size() != MIN_PARAMS_SIZE && arguments.size() != MAX_PARAMS_SIZE)){
             throw new IllegalArgumentException("Failed to execute customize freemarker function[AutoWrapFunction]"
                 + " due to unmatched params:" + arguments);
         }
@@ -29,7 +36,7 @@ public class AutoWrapFunction implements TemplateMethodModelEx {
         try {
             content = ((SimpleScalar)(arguments.get(0))).getAsString();
             count = ((SimpleNumber)(arguments.get(1))).getAsNumber().intValue();
-            if(arguments.size() == 3){
+            if(arguments.size() == MAX_PARAMS_SIZE){
                 spaceCount = ((SimpleNumber)(arguments.get(2))).getAsNumber().intValue();
             }
         } catch (Exception e) {

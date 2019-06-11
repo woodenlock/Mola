@@ -6,5 +6,9 @@ package com.resintec.mola.business.interfaz;
  *
  */
 public interface Descriptable{
+	/**
+	 * get message detail
+	 * @return
+	 */
     String getMessage();
 }

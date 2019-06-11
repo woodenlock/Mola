@@ -10,10 +10,13 @@ import java.math.BigDecimal;
  *
  */
 public enum ImportJavaTypeEnum {
+	/** Date **/
 	DATE("Date",Date.class.getName()),
 	
+	/** BigDecimal **/
 	DECIMAL("BigDecimal",BigDecimal.class.getName()),
 	
+	/** OffsetDateTime **/
 	OFFSET("OffsetDateTime",OffsetDateTime.class.getName());
 	
 	/** short name of java type **/
