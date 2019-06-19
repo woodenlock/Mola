@@ -17,36 +17,42 @@ public interface ${table.entityName? cap_first}${all.service.targetSuffix} {
 	/**
      * delete by the primary key of the target entity
      * @param ${table.primaryColumn.name}
+     * @return 
      */
     int deleteByPrimaryKey(${table.primaryColumn.javaTypeShortName} ${table.primaryColumn.name});
     
     /**
      * insert with all props of the target entity
      * @param record
+     * @return 
      */
     int insert(${table.entityName? cap_first}${all.entity.targetSuffix} record);
     
     /**
      * insert with selective props of the target entity
      * @param record
+     * @return 
      */
     int insertSelective(${table.entityName? cap_first}${all.entity.targetSuffix} record);
     
     /**
      * select by the primary key
      * @param ${table.primaryColumn.name}
+     * @return 
      */
     ${table.entityName? cap_first}${all.entity.targetSuffix} selectByPrimaryKey(${table.primaryColumn.javaTypeShortName} ${table.primaryColumn.name});
     
     /**
      * update selective props of the record by primary key
      * @param record
+     * @return 
      */
     int updateByPrimaryKeySelective(${table.entityName? cap_first}${all.entity.targetSuffix} record);
     
     /**
      * update all props of the record by primary key
      * @param record
+     * @return 
      */
     int updateByPrimaryKey(${table.entityName? cap_first}${all.entity.targetSuffix} record);
     
@@ -60,12 +66,14 @@ public interface ${table.entityName? cap_first}${all.service.targetSuffix} {
     /**
      * select all matched records by selective props
      * @param record
+     * @return 
      */
     List<${table.entityName? cap_first}${all.entity.targetSuffix}> selectSelective(${table.entityName? cap_first}${all.entity.targetSuffix} record);
     
     /**
      * select all matched records by the list of primary keys
-     * @param record
+     * @param ${table.primaryColumn.name}s
+     * @return 
      */
     List<${table.entityName? cap_first}${all.entity.targetSuffix}> selectByPrimarys(List<${table.primaryColumn.javaTypeShortName}> ${table.primaryColumn.name}s);
 }

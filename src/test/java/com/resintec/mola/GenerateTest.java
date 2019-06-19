@@ -11,10 +11,10 @@ import com.resintec.mola.util.GeneratorUtils;
  * @author woodenlock
  *
  */
-public class TestGenerate{
+public class GenerateTest{
     public static void main(String[] args) {
     	GenrateConfiguration config = new GenrateConfiguration();
-        config.setAuthor("David");
+        config.setAuthor("Mola");
         config.setOverride(false);
         
         ConnectionConfiguration connection = new ConnectionConfiguration("jdbc:mysql://127.0.0.1:3306/resintec?serverTimezone=GMT%2B8",
@@ -22,15 +22,18 @@ public class TestGenerate{
         config.setConnection(connection);
         
         DataSourceConfiguration source = new DataSourceConfiguration("resintec", null, "user");
-        //DataSourceConfiguration source1 = new DataSourceConfiguration("resintec", null, "^menu\\w*");
+        //DataSourceConfiguration source = new DataSourceConfiguration("resintec", null, "^menu\\w*");
         config.setDataSource(source);
         
         TestPathConfiguration path = new TestPathConfiguration();
         path.setBusinessPackage("com/resintec/test/");
+        path.build();
+        path.getDao().setTargetPackagePath(path.getBusinessPackage() + "dao/mapper/");
+        path.getDao().setTargetSuffix("Mapper");
         config.setPath(path);
         
-        //FieldMappingConfiguration mapping = new FieldMappingConfiguration(null, null, null, "^add\\w*", null, null);
-        //config.setMappings(new FieldMappingConfiguration[]{mapping});
+//        FieldMappingConfiguration mapping = new FieldMappingConfiguration("BLOB", JdbcTypeEnum.VARCHAR);
+//        config.setMappings(new FieldMappingConfiguration[]{mapping});
         
         GeneratorUtils.generate(config);
     }

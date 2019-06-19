@@ -8,4 +8,4 @@
 
 5、Welcome to visit this project on github(https://github.com/woodenlock/Mola) or my website(source.?.com).
 
-6、A little test case is provided there:/src/test/java/com/resintec/TestGenerator.java
+6、A little test case is provided there:/src/test/java/com/resintec/GenerateTest.java

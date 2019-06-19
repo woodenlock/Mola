@@ -25,7 +25,7 @@ public class CommonUtils{
     private static final String HUMP_REGX = "_(\\w)";
     
     /** common time format String **/
-	private static final String TIME_FORMAT = "yyyy-mm-dd HH:MM:ss.SSSS";
+	private static final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSSS";
 	
     /**
      * underline to hump

@@ -1,8 +1,12 @@
 package ${all.testService.targetPackagePath?replace('/','.') ? substring(0,(all.testService.targetPackagePath?replace('/','.'))?length-1)};
 
+import com.github.pagehelper.Page;
+import com.resintec.mola.business.model.PageVO;
 import ${all.entity.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.entity.targetSuffix};
+import ${all.viewObject.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.viewObject.targetSuffix};
 import ${all.service.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.service.targetSuffix};
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -22,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
+@Transactional(rollbackFor = Throwable.class)
 @Rollback
 public class ${table.entityName? cap_first}${all.testService.targetSuffix} {
     private static final String PREFIX = "junit-test-";
@@ -102,6 +106,28 @@ public class ${table.entityName? cap_first}${all.testService.targetSuffix} {
         ${table.entityName? cap_first}${all.entity.targetSuffix} data = new ${table.entityName? cap_first}${all.entity.targetSuffix}();
         List<${table.entityName? cap_first}${all.entity.targetSuffix}> list = service.selectSelective(data);
         Assert.assertNotNull(list);
+    }
+    
+    @Test
+    public void testPage() {
+        ${table.entityName? cap_first}${all.viewObject.targetSuffix} search = new ${table.entityName? cap_first}${all.viewObject.targetSuffix}();
+        search.setRemark(REMARK);
+        PageVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}> page = new PageVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}>();
+        page.setPageSize(10);
+        page.setPageNum(1);
+        page.setSearch(search);
+        Page<${table.entityName? cap_first}${all.entity.targetSuffix}>records = service.page(page);
+        Assert.assertNotNull(records);
+        Assert.assertEquals(1, records.size());
+        Assert.assertEquals(REMARK, records.get(0).getRemark());
+    }
+    
+    @Test
+    public void testSelectByPrimarys() {
+        List<${table.entityName? cap_first}${all.entity.targetSuffix}>records = service.selectByPrimarys(Arrays.asList(record.get${table.primaryColumn.name? cap_first}()));
+        Assert.assertNotNull(records);
+        Assert.assertEquals(1, records.size());
+        Assert.assertEquals(REMARK, records.get(0).getRemark());
     }
 
 }

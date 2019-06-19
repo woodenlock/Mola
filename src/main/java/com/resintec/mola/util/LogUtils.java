@@ -1,5 +1,8 @@
 package com.resintec.mola.util;
 
+import java.io.PrintStream;
+import java.util.Arrays;
+
 /**
  * uitl to provide a lighting log implement
  * @author woodenlock
@@ -82,34 +85,26 @@ public class LogUtils {
 	 * TODO consider to overwrite by java.util.logging.Handler to deal with logs from freemarker
 	 */
 	private static void output(String template, Level level, Class<?> clazz, Object... args) {
-		if(null == clazz) {
-			throw new IllegalArgumentException("Unimplement log.");
+		if(null == level || null == clazz) {
+			throw new IllegalArgumentException("Failed to output log due to illegal params: " + level + "," + clazz);
 		}
-		if (CommonUtils.isBlank(template)) {
-			return;
-		}
-		if (!CommonUtils.isBlank(args)) {
-		    for (Object object : args) {
-                if(object instanceof Throwable){
-                    template += "\n";
-                }
-                template = template.replaceFirst("\\{\\}", CommonUtils.toString(object));
-            }
-		}
-		template = "[" + level.getFlag() + "]" + " [" + clazz.getName() + " " + CommonUtils.getCurrentTime() + "] "
-				+ template;
-
-		switch (level) {
-		case DEBUG:
-		case INFO:
-			System.out.println(template);
-			break;
-		case WARN:
-		case ERROR:
-			System.err.println(template);
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown argument:" + level);
+		if(!CommonUtils.isBlank(template)){
+		    if (!CommonUtils.isBlank(args)) {
+	            try {
+	                for (Object object : args) {
+	                    if(object instanceof Throwable){
+	                        template += "\n";
+	                    }
+	                    template = template.replaceFirst("\\{\\}", CommonUtils.toString(object));
+	                }
+	            } catch (Throwable e) {
+	                throw new RuntimeException("Failed to output log due to fail to group content: "
+	                    + template + "," + level + "," + clazz + "," + Arrays.toString(args));
+	            }
+	        }
+	        template = "[" + level.getFlag() + "] [" + clazz.getName() + " " + CommonUtils.getCurrentTime() + "] "
+	                + template;
+	        level.getStream().println(template);
 		}
 	}
 
@@ -121,16 +116,16 @@ public class LogUtils {
 	 */
 	public enum Level {
 		/** debug **/
-		DEBUG("DEBUG", 1),
+		DEBUG("DEBUG", 1, System.out),
 
 		/** info **/
-		INFO("INFO", 2),
+		INFO("INFO", 2, System.out),
 
 		/** warn **/
-		WARN("WARN", 3),
+		WARN("WARN", 3, System.err),
 
 		/** error **/
-		ERROR("ERROR", 4);
+		ERROR("ERROR", 4, System.err);
 
 		/**
 		 * flag
@@ -141,10 +136,16 @@ public class LogUtils {
 		 * level
 		 */
 		private Integer level;
+		
+		/**
+		 * output implements
+		 */
+		private PrintStream stream;
 
-		private Level(String flag, Integer level) {
+		private Level(String flag, Integer level, PrintStream stream) {
 			this.flag = flag;
 			this.level = level;
+			this.stream = stream;
 		}
 
 		public String getFlag() {
@@ -153,6 +154,10 @@ public class LogUtils {
 
 		public Integer getLevel() {
 			return level;
+		}
+		
+		public PrintStream getStream() {
+		    return stream;
 		}
 	}
 }

@@ -32,7 +32,7 @@ import freemarker.template.TemplateExceptionHandler;
 
 /**
  * util to group generations
- * 
+ * @see https://github.com/woodenlock/Mola
  * @author woodenlock
  *
  */
@@ -223,6 +223,7 @@ public class GeneratorUtils {
 
 	/**
 	 * roll back files generated
+	 * TODO transaction support
 	 */
 	private static void rollback() {
 		boolean act = false;
