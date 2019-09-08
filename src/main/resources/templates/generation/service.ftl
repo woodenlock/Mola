@@ -8,9 +8,9 @@ import ${all.viewObject.targetPackagePath?replace('/','.')}${table.entityName? c
 import java.util.List;
  
 /**
- * @Description service interface of ${table.entityName? cap_first}
- * @Author: ${author}
- * @Date: ${date}
+ * the service interface of ${table.entityName? cap_first}
+ * @author ${author}
+ * @date ${date}
  *
  */
 public interface ${table.entityName? cap_first}${all.service.targetSuffix} {
@@ -76,4 +76,18 @@ public interface ${table.entityName? cap_first}${all.service.targetSuffix} {
      * @return 
      */
     List<${table.entityName? cap_first}${all.entity.targetSuffix}> selectByPrimarys(List<${table.primaryColumn.javaTypeShortName}> ${table.primaryColumn.name}s);
+
+    /**
+     * 业务新增
+     * @param vo
+     * @return [参数说明]
+     */
+    int add(${table.entityName? cap_first}${all.viewObject.targetSuffix} vo);
+
+    /**
+     * 业务修改
+     * @param vo
+     * @return [参数说明]
+    */
+    int update(${table.entityName? cap_first}${all.viewObject.targetSuffix} vo);
 }

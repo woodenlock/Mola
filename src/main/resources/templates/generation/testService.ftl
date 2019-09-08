@@ -6,7 +6,7 @@ import ${all.entity.targetPackagePath?replace('/','.')}${table.entityName? cap_f
 import ${all.viewObject.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.viewObject.targetSuffix};
 import ${all.service.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.service.targetSuffix};
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -20,9 +20,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @Description test class of the ${table.entityName? cap_first}${all.testService.targetSuffix}
- * @Author: ${author}
- * @Date: ${date}
+ * the test class of the ${table.entityName? cap_first}${all.service.targetSuffix}
+ * @author ${author}
+ * @date ${date}
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -124,7 +124,7 @@ public class ${table.entityName? cap_first}${all.testService.targetSuffix} {
     
     @Test
     public void testSelectByPrimarys() {
-        List<${table.entityName? cap_first}${all.entity.targetSuffix}>records = service.selectByPrimarys(Arrays.asList(record.get${table.primaryColumn.name? cap_first}()));
+        List<${table.entityName? cap_first}${all.entity.targetSuffix}>records = service.selectByPrimarys(Collections.singletonList(record.get${table.primaryColumn.name? cap_first}()));
         Assert.assertNotNull(records);
         Assert.assertEquals(1, records.size());
         Assert.assertEquals(REMARK, records.get(0).getRemark());

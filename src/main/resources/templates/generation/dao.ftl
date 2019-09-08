@@ -5,12 +5,14 @@ import ${all.entity.targetPackagePath?replace('/','.')}${table.entityName? cap_f
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
  
 /**
- * @Description dao of the ${table.entityName? cap_first}
- * @Author: ${author}
- * @Date: ${date}
+ * the dao of the ${table.entityName? cap_first}
+ * @author ${author}
+ * @date ${date}
 **/
+@Repository
 public interface ${table.entityName? cap_first}${all.dao.targetSuffix} {
 	/**
      * delete by the primary key of the target entity

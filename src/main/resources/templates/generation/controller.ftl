@@ -4,7 +4,6 @@ import ${all.entity.targetPackagePath?replace('/','.')}${table.entityName? cap_f
 import ${all.viewObject.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.viewObject.targetSuffix};
 import ${all.service.targetPackagePath?replace('/','.')}${table.entityName? cap_first}${all.service.targetSuffix};
 import com.github.pagehelper.Page;
-import com.resintec.mola.business.consts.DBConsts;
 import com.resintec.mola.business.model.PageVO;
 import com.resintec.mola.business.model.ResponseVO;
 import com.resintec.mola.business.util.ObjectUtils;
@@ -26,9 +25,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 /**
- * @Description the controller of ${table.entityName}
- * @Author: ${author}
- * @Date: ${date}
+ * the request controller of ${table.entityName}
+ * @author ${author}
+ * @date ${date}
  *
  */
 @Api(value = "/${table.entityName}", tags = "/${table.remarks}")
@@ -38,7 +37,7 @@ public class ${table.entityName? cap_first}${all.controller.targetSuffix} {
 	private static final Logger log = LoggerFactory.getLogger(${table.entityName? cap_first}${all.controller.targetSuffix}.class);
 	
     @Autowired
-    private ${table.entityName? cap_first}${all.service.targetSuffix} service;
+    private ${table.entityName? cap_first}${all.service.targetSuffix} ${table.entityName}${all.service.targetSuffix};
     
     /**
      * get single record by primary key
@@ -47,7 +46,7 @@ public class ${table.entityName? cap_first}${all.controller.targetSuffix} {
     @ApiOperation(value = "get single record by primary key", notes = "get single record by primary key")
     @GetMapping(value = "/query/{${table.primaryColumn.name}}")
     public ResponseVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}> query(@PathVariable ${table.primaryColumn.javaTypeShortName} ${table.primaryColumn.name}) {
-        ${table.entityName? cap_first}${all.entity.targetSuffix} ${table.entityName} = service.selectByPrimaryKey(${table.primaryColumn.name});
+        ${table.entityName? cap_first}${all.entity.targetSuffix} ${table.entityName} = ${table.entityName}${all.service.targetSuffix}.selectByPrimaryKey(${table.primaryColumn.name});
         return new ResponseVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}>(ObjectUtils.convert(${table.entityName}, ${table.entityName? cap_first}${all.viewObject.targetSuffix}.class));
     }
     
@@ -61,12 +60,12 @@ public class ${table.entityName? cap_first}${all.controller.targetSuffix} {
     @PostMapping(value = "/queryPage")
     public ResponseVO<PageVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}>> page(@RequestBody PageVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}> page) {
         PageVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}> result = null;
-        if(null == page){
-            return new ResponseVO<PageVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}>>(result);
+        if(null != page){
+            Page<${table.entityName? cap_first}${all.entity.targetSuffix}> data = ${table.entityName}${all.service.targetSuffix}.page(page);
+            result = ObjectUtils.convert(data, PageVO.class);
+            result.setList(ObjectUtils.convertList(data.getResult(), ${table.entityName? cap_first}${all.viewObject.targetSuffix}.class));
         }
-        Page<${table.entityName? cap_first}${all.entity.targetSuffix}> data = service.page(page);
-        result = ObjectUtils.convert(data, PageVO.class);
-        result.setList(ObjectUtils.convertList(data.getResult(), ${table.entityName? cap_first}${all.viewObject.targetSuffix}.class));
+
         return new ResponseVO<PageVO<${table.entityName? cap_first}${all.viewObject.targetSuffix}>>(result);
     }
     
@@ -77,15 +76,8 @@ public class ${table.entityName? cap_first}${all.controller.targetSuffix} {
      */
     @ApiOperation(value = "add record", notes = "add record")
     @PostMapping(value = "/create")
-    public ResponseVO<Boolean> create(@RequestBody ${table.entityName? cap_first}${all.viewObject.targetSuffix} vo){
-    	log.debug("Ready to add ${table.entityName? cap_first}${all.viewObject.targetSuffix}:{}.", vo);
-        ${table.entityName? cap_first}${all.entity.targetSuffix} target = ObjectUtils.convert(vo, ${table.entityName? cap_first}${all.entity.targetSuffix}.class);
-        if (null == target) {
-            return new ResponseVO<Boolean>(Boolean.FALSE);
-        }
-        int result = service.insertSelective(target);
-        log.debug("Finish to add ${table.entityName? cap_first}${all.viewObject.targetSuffix}:{}.Result:{}.", vo, result);
-        return new ResponseVO<Boolean>(result == DBConsts.COMMON_SUCCESS);
+    public ResponseVO<Integer> create(@RequestBody ${table.entityName? cap_first}${all.viewObject.targetSuffix} vo){
+        return new ResponseVO<Integer>(${table.entityName}${all.service.targetSuffix}.add(vo));
     }
     
     /**
@@ -95,15 +87,8 @@ public class ${table.entityName? cap_first}${all.controller.targetSuffix} {
      */
     @ApiOperation(value = "update record by target id", notes = "update record by target id")
     @PutMapping(value = "/update")
-    public ResponseVO<Boolean> update(@RequestBody ${table.entityName? cap_first}${all.viewObject.targetSuffix} vo){
-    	log.debug("Ready to update ${table.entityName? cap_first}${all.viewObject.targetSuffix}:{}.", vo);
-        ${table.entityName? cap_first}${all.entity.targetSuffix} target = ObjectUtils.convert(vo, ${table.entityName? cap_first}${all.entity.targetSuffix}.class);
-        if (null == target) {
-            return new ResponseVO<Boolean>(Boolean.FALSE);
-        }
-        int result = service.updateByPrimaryKeySelective(target);
-        log.debug("Finish to update ${table.entityName? cap_first}${all.viewObject.targetSuffix}:{}.Result:{}.", vo, result);
-        return new ResponseVO<Boolean>(result == DBConsts.COMMON_SUCCESS);
+    public ResponseVO<Integer> update(@RequestBody ${table.entityName? cap_first}${all.viewObject.targetSuffix} vo){
+        return new ResponseVO<Integer>(${table.entityName}${all.service.targetSuffix}.update(vo));
     }
     
     /**
@@ -113,10 +98,8 @@ public class ${table.entityName? cap_first}${all.controller.targetSuffix} {
      */
     @ApiOperation(value = "delete record by target id", notes = "delete record by target id")
     @DeleteMapping(value = "/delete/{${table.primaryColumn.name}}")
-    public ResponseVO<Boolean> delete(@PathVariable @ApiParam(name = "${table.primaryColumn.name}", value = "the primary key of the target record wanted to be deleted", required = true) ${table.primaryColumn.javaTypeShortName} ${table.primaryColumn.name}){
-    	log.debug("Ready to delete ${table.primaryColumn.javaTypeShortName}:{}.", ${table.primaryColumn.name});
-        int result = service.deleteByPrimaryKey(${table.primaryColumn.name});
-        log.debug("Finish to delete ${table.primaryColumn.javaTypeShortName}:{}.Result:{}.", ${table.primaryColumn.name}, result);
-        return new ResponseVO<Boolean>(result == DBConsts.COMMON_SUCCESS);
+    public ResponseVO<Integer> delete(@PathVariable @ApiParam(name = "${table.primaryColumn.name}", value = "the primary key of the target record wanted to be deleted", required = true) ${table.primaryColumn.javaTypeShortName} ${table.primaryColumn.name}){
+    	log.info("Ready to delete ${table.primaryColumn.javaTypeShortName}:{}.", ${table.primaryColumn.name});
+        return new ResponseVO<Integer>(${table.entityName}${all.service.targetSuffix}.deleteByPrimaryKey(${table.primaryColumn.name}));
     }
 }
